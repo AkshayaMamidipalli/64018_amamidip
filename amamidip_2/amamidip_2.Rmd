@@ -1,0 +1,58 @@
+---
+title: "amamidip_2"
+author: "Akshaya Mamidipalli"
+date: "2024-09-22"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+#loading the required package
+library(lpSolve)
+```
+
+```{r}
+#Set up the objective function
+objective_function <- c(420,360,300,420,360,300,420,360,300)
+confusion_mat <-  matrix(c(1,1,1,0,0,0,0,0,0,
+ 0,0,0,1,1,1,0,0,0,
+ 0,0,0,0,0,0,1,1,1,
+ 20,15,12,0,0,0,0,0,0,
+ 0,0,0,20,15,12,0,0,0,
+ 0,0,0,0,0,0,20,15,12,
+ 1,0,0,1,0,0,1,0,0,
+ 0,1,0,0,1,0,0,1,0,
+ 0,0,1,0,0,1,0,0,1), nrow = 9, byrow =TRUE)
+```
+
+```{r}
+#Define the direction of inequality constraints
+f.direction <- c("<=",
+ "<=",
+ "<=",
+ "<=",
+ "<=",
+ "<=",
+ "<=",
+ "<=",
+ "<=")
+
+```
+
+```{r}
+# set up the right hand side coefficients (Constant)
+rhs_coeffecients <- c(750,900,450,13000,12000,5000,900,1200,750)
+# Value of z
+lp("max", objective_function, confusion_mat, f.direction, rhs_coeffecients)
+```
+```{r}
+lp("max", objective_function, confusion_mat, f.direction, rhs_coeffecients)$solution
+```
+
